@@ -91,7 +91,7 @@ namespace MIPService.Models
         public string ClaimAccountTypeCode { get; set; } //account_type -1-cheque 2 is savings
         public string ClaimAccountNumber { get; set; }//account_number
         public string ClaimBranchCode { get; set; }//Mip module branch_code_clm
-        public string AccHolderID { get; set; } //blank
+        public string AccHolderID { get; set; } //Account holder ID Number
         public string AVSComp { get; set; }//static 0 config
         public string DOMandate { get; set; }//static 1 config
         public string MarketingAuth { get; set; }//Date and Time, created_time

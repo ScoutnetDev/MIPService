@@ -130,21 +130,21 @@ namespace MIPService
                                     Log.Logger.Information(JsonConvert.SerializeObject(resultconv.Data[i]));
                                    
                                   
-                                    var zocli = new RestClient(_appSettings.mip_base_client + "search?criteria=Name:equals:" + resultconv.Data[0].MIP.name);
-                                    var zopa = new RestRequest();
-                                    zopa.AddHeader("Authorization", "Zoho-oauthtoken " + accesstoken.access_token);
+                                   // var zocli = new RestClient(_appSettings.mip_base_client + "search?criteria=Name:equals:" + resultconv.Data[0].MIP.name);
+                                   // var zopa = new RestRequest();
+                                 //   zopa.AddHeader("Authorization", "Zoho-oauthtoken " + accesstoken.access_token);
 
-                                    var resGet = await zocli.GetAsync(zopa);
+                                  //var resGet = await zocli.GetAsync(zopa);
 
-                                    var jsonResponse = resGet.Content;
-
+                                 //   var jsonResponse = resGet.Content;
+                                 /*
                                     if (jsonResponse == "")
                                     {
                                       
                                         return;
                                     }
 
-                                    JObject json = JObject.Parse(jsonResponse);
+                                    JObject json = JObject.Parse(jsonResponse);*/
 
                                     // var mipRes = JsonConvert.DeserializeObject<MIPResponse>(jsonResponse);
                                     
@@ -173,7 +173,7 @@ namespace MIPService
                                         mip.IDNumber = resultconv.Data[i].id_number;
                                         mip.PassportNumber = "";
                                     }
-                                    else
+                                    else if (resultconv.Data[i].id_type == "Passport")
                                     {
                                         mip.PassportNumber = resultconv.Data[i].id_number;
                                         mip.IDNumber = "";
@@ -236,7 +236,7 @@ namespace MIPService
                                     }
                                     pol.ClaimAccountNumber = resultconv.Data[i].account_number;
                                     pol.ClaimBranchCode = resultconv.Data[i].branch_code; //mip
-                                    pol.AccHolderID = "";
+                                    pol.AccHolderID = resultconv.Data[i].id_number;
                                     pol.AVSComp = _appSettings.AVSCode;//config set
                                     pol.DOMandate = _appSettings.DOMandate;//config
                                     pol.MarketingAuth = resultconv.Data[i].created_time;
@@ -253,8 +253,18 @@ namespace MIPService
                                         depd.DependantFirstName = resultconv.Data[i].firstname;
                                         depd.DependantSurname = resultconv.Data[i].surname;
                                         depd.DependantGender = resultconv.Data[i].gender[0].ToString();//M/F
-                                        depd.IDNumber = resultconv.Data[i].id_number;
-                                        depd.PassportNumber = resultconv.Data[i].id_number;
+
+                                        if (resultconv.Data[i].id_type == "SA")
+                                        {
+                                            depd.IDNumber = resultconv.Data[i].id_number;
+                                            depd.PassportNumber = "";
+                                        }
+                                        else if (resultconv.Data[i].id_type == "Passport")
+                                        {
+                                            depd.PassportNumber = resultconv.Data[i].id_number;
+                                            depd.IDNumber = "";
+                                        }
+                                                                          
                                         depd.DateOfBirth = resultconv.Data[i].date_of_birth;
                                         depd.DependantRelationship = _appSettings.Main;
                                         depd.PREM = resultconv.Data[i].Main_Member_cost;
@@ -813,6 +823,8 @@ namespace MIPService
                                     data = data.Replace("DependantInformationNine", "DependantInformation");
                                     data = data.Replace("DependantInformationTen", "DependantInformation");
 
+                                    Log.Information(data);
+
                                     var options = new RestClientOptions(_appSettings.mip)
                                     {
                                         MaxTimeout = -1,
@@ -1044,7 +1056,7 @@ namespace MIPService
                                       
                                     var dbRes = con.QuerySingle<int>(query, new 
                                     {
-                                        @id = "",
+                                        @id = mipResponse.data[0].POLICY_NBR,
                                         @policynumber   = resultconv.Data[0].policynumber,
                                         @Comp_Code  = resultconv.Data[0].Comp_Code,
                                         @Product1   = resultconv.Data[0].Product1,
