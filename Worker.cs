@@ -1221,7 +1221,7 @@ namespace MIPService
                                                     @Premium = Decimal.Parse(resultconv.Data[i].Premium_Test),
                                                     @PolicyNumber = resultconv.Data[i].policynumber,
                                                     @Response = response.Content,
-                                                    @Status = resultconv.Data[i].mip_status,
+                                                    @Status = MIPErrorResponse,
                                                     @IdNumber = resultconv.Data[i].id_number,
                                                     @MedStat = mipResponse.data[0].POLICY_NBR
                                                 });
