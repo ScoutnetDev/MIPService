@@ -23,6 +23,7 @@ namespace MIPService
         public string PastYearAdmission { get; set; }
         public string ProcessDTTM { get; set; }
         public string mip { get; set; }
+        public string environment { get; set; }
         public string Main { get; set; }
         public string Adult { get; set; }
         public string Spouse { get; set; }
