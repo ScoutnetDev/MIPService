@@ -74,7 +74,7 @@ namespace MIPService.Models
         public string Dep_8_Type { get; set; }
         public string Dep_9_Type { get; set; }
         public string Dep_10_Type { get; set; }
-       
+
         public string DependantTypeCode { get; set; }
         public string Child_dependent_cost { get; set; }
         public string Adult_Dependent_Cost { get; set; }
@@ -119,7 +119,7 @@ namespace MIPService.Models
         //public string PastYearAdmission { get; set; }
         //public string additional_buy_up { get; set; }
         //public string Process_DTTM { get; set; }
-       // public List<DependantDetail> DependantInformation { get; set; }
+        // public List<DependantDetail> DependantInformation { get; set; }
         public string dep1 { get; set; }
         public string dep2 { get; set; }
         public string dep3 { get; set; }
@@ -186,16 +186,16 @@ namespace MIPService.Models
         public string Adult_Dependent_Cost { get; set; }
         public string Main_Member_cost { get; set; }
 
-       // public string race { get; set; }
+        // public string race { get; set; }
         public string dep_1_additional_buy_up { get; set; }
-        public string dep_2_additional_buy_up{ get; set; }
-        public string dep_3_additional_buy_up{ get; set; }
-        public string dep_4_additional_buy_up{ get; set; }
-        public string dep_5_additional_buy_up{ get; set; }
-        public string dep_6_additional_buy_up{ get; set; }
-        public string dep_7_additional_buy_up{ get; set; }
-        public string dep_8_additional_buy_up{ get; set; }
-        public string dep_9_additional_buy_up{ get; set; }
+        public string dep_2_additional_buy_up { get; set; }
+        public string dep_3_additional_buy_up { get; set; }
+        public string dep_4_additional_buy_up { get; set; }
+        public string dep_5_additional_buy_up { get; set; }
+        public string dep_6_additional_buy_up { get; set; }
+        public string dep_7_additional_buy_up { get; set; }
+        public string dep_8_additional_buy_up { get; set; }
+        public string dep_9_additional_buy_up { get; set; }
         public string dep_10_additional_buy_up { get; set; }
         public string Additional_Buy_Up { get; set; }
 
@@ -205,7 +205,7 @@ namespace MIPService.Models
         public string id_type { get; set; }
         public string id_number { get; set; }
         public string date_of_birth { get; set; }
-       // public string gender { get; set; }
+        // public string gender { get; set; }
         public string Comp_Code { get; set; }
         public string mip_status { get; set; }
         public string postal_address_line_1 { get; set; }
@@ -248,6 +248,9 @@ namespace MIPService.Models
         public string mip_dep_8_premium { get; set; }
         public string mip_dep_9_premium { get; set; }
         public string mip_dep_10_premium { get; set; }
+
+        public string mipfixrequired { get; set; } 
+    public string mip_status { get; set; } 
     }
 
 }

@@ -51,7 +51,7 @@ namespace MIPService
 
                 try
                 {
-                    string refreshtoken = File.ReadAllText(@"C:\Token\MIPRefTok.txt");
+                  /*  string refreshtoken = File.ReadAllText(@"C:\Token\MIPRefTok.txt");
 
                     if (refreshtoken == string.Empty)
                     {
@@ -71,11 +71,72 @@ namespace MIPService
                         accesstoken = await GetRefreshToken(refreshtoken);
                         Log.Information("New Token: " + accesstoken);
                         Log.Information("Refresh Token: " + refreshtoken);
+                    }*/
+
+
+                    string refreshtoken = File.ReadAllText(@"C:\Token\MIPRefTok.txt");
+                    string accesstokenr = File.ReadAllText(@"C:\Token\MIPAPITok1.txt");
+                    string accesstokent = File.ReadAllText(@"C:\Token\MIPAPITokA1.txt");
+
+                    DateTime enteredDate = DateTime.Parse(accesstokent);
+                    DateTime d2 = DateTime.Now;
+                    TimeSpan diff = d2 - enteredDate;
+                    bool diffIsGreaterThan1Hour = diff.TotalMinutes > 5;
+
+                    if (refreshtoken == null)
+                    {
+                        var token = await GetAuthToken();
+                        refreshtoken = token.refresh_token;
                     }
+
+                    if (diff.TotalMinutes > 57)
+                    {
+
+                        //File.Delete(@"C:\Token\MIPAPITok1.txt");
+                       // File.Delete(@"C:\Token\MIPAPITokA1.txt");
+                      //  var accesstoken = await GetRefreshToken(refreshtoken);
+                        
+                      //  Log.Logger.Information(accesstoken.ToString());
+
+
+                       // Log.Information("No accesstoken available " + accesstokenr.error);
+                        Log.Information("Stopping existing Access Token " + DateTime.Now.ToString() + accesstokenr);
+                        Log.Information("Stopping existing Refresh Token " + DateTime.Now.ToString() + refreshtoken);
+                       //await Task.Delay(timer, stoppingToken);
+                        Log.Information("Gen New Token Time " + DateTime.Now.ToString());
+                        var  accesstoken = await GetRefreshToken(refreshtoken);
+                       //await Task.Delay(20000);
+                        Log.Information("New Token: " + accesstoken);
+                        Log.Information("Refresh Token: " + refreshtoken);
+                    }
+                    string accesstoken1 = File.ReadAllText(@"C:\Token\MIPAPITok1.txt");
+                    string accesstokentt = File.ReadAllText(@"C:\Token\MIPAPITokA1.txt");
+                    DateTime enteredDate1 = DateTime.Parse(accesstokentt);
+                    DateTime d1 = DateTime.Now;
+                    TimeSpan diff1 = d1 - enteredDate1;
+                    bool diffIsGreaterThan1Hour1 = diff1.TotalMinutes > 5;
+                    if (diff1.TotalMinutes < 1 && accesstoken1 != null)
+                    {
+                        await Task.Delay(10000);
+
+
+                    }
+                    string acctoken2 = File.ReadAllText(@"C:\Token\MIPAPITok1.txt");
+                    string actokentime = File.ReadAllText(@"C:\Token\MIPAPITokA1.txt");
+                    DateTime enteredDate2 = DateTime.Parse(actokentime);
+                    DateTime d3 = DateTime.Now;
+                    TimeSpan diff2 = d3 - enteredDate2;
+                    bool diffIsGreaterThan1Hour2 = diff2.TotalMinutes > 5;
+
+                    Log.Information("Access Token: " + accesstokenr);
+                    Log.Information("Refresh Token: " + refreshtoken);
+                    Log.Information("Token Refreshed Mins: " + diff2 +  " ago");
+
+                    await Task.Delay(20000);
 
                     var zohoclient = new RestClient();
                     var zohopar1 = new RestRequest(zoho_base_url + "search?criteria=((Comp_Code:equals:DRET)and(Stage:equals:Policy%20fulfillment)and(product:starts_with:4))");
-                    zohopar1.AddHeader("Authorization", "Zoho-oauthtoken " + accesstoken.access_token);
+                    zohopar1.AddHeader("Authorization", "Zoho-oauthtoken " + acctoken2);
                     var res1 = await zohoclient.ExecuteAsync(zohopar1);
 
                     var res = new List<string>();
@@ -1082,12 +1143,18 @@ namespace MIPService
                                                 zohoPutData.mip_dep_8_premium = dep8premium;
                                                 zohoPutData.mip_dep_9_premium = dep9premium;
                                                 zohoPutData.mip_dep_10_premium = dep10premium;
+                                                if (MIPErrorResponse == false)
+                                                {
+                                                    zohoPutData.mipfixrequired = "Success";
+                                                    zohoPutData.mip_status = "Active";
+
+                                                }
 
                                                 putData.data.Add(zohoPutData);
 
                                                 var zoho = new RestRequest(zoho_base_url + resultconv.Data[i].id);
                                                 zoho.Method = Method.Put;
-                                                zoho.AddHeader("Authorization", "Zoho-oauthtoken " + accesstoken.access_token);
+                                                zoho.AddHeader("Authorization", "Zoho-oauthtoken " + acctoken2);//accesstoken.access_token);
 
                                                 zoho.AddJsonBody<ZohoPutRequest>(putData);
 
@@ -1321,10 +1388,12 @@ namespace MIPService
                 request.AddParameter("client_secret", client_secret);
                 request.AddParameter("grant_type", grant_type);
                 var zoho_request = await client.ExecuteAsync(request);
-
+                DateTime tokenexpiry = DateTime.Now;
                 MIPAuthResponse response = JsonConvert.DeserializeObject<MIPAuthResponse>(zoho_request.Content);
-
+                File.WriteAllText(@"C:\Token\MIPAPITok1.txt", response.access_token);
+                File.WriteAllText(@"C:\Token\MIPAPITokA1.txt", tokenexpiry.ToString());
                 Log.Logger.Information("Token: " + response.access_token);
+
                 return response;
 
             }
