@@ -30,6 +30,7 @@ namespace MIPService
         public string Child { get; set; }
         public string MainType { get; set; }
         public string SpouseType { get; set; }
+        public string compcode { get; set; }
         public string AdultType { get; set; }
         public string ChildType { get; set; }
         public string MainPrem { get; set; }
@@ -38,6 +39,12 @@ namespace MIPService
         public int InceptionDaysRange { get; set; }
         public int InceptionAlertDays { get; set; }
         public List<int> InceptionAlertInterval { get; set; }
-        
+
+        public string Instances { get; set; }
+        public string Instances1 { get; set; }
+        public string Instance2 { get; set; }
+  
+
+
     }
 }

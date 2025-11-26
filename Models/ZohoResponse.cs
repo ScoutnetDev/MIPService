@@ -217,6 +217,11 @@ namespace MIPService.Models
         public string alternative_number { get; set; }
         public string cell_number { get; set; }
         public string id { get; set; }
+
+        public string Id_Number1 { get; set; }
+
+        public string Account_Holder_ID_Passport { get; set; }
+        public string Account_Holder_Initial { get; set; }
     }
 
 
